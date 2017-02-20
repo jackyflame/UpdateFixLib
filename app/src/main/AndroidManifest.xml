@@ -2,11 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.haozi.anfixtester">
 
+    <!--这个application不用写出实体类出来,在上面MyApplication中用注解声明一个就好了-->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name="ook.yzx.tinker.Application"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
