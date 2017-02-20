@@ -3,8 +3,6 @@ apply plugin: 'com.android.application'
 ////apply tinker插件
 //apply plugin: 'com.tencent.tinker.patch'
 
-apply from: '../fix.gradle'
-
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -16,6 +14,19 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        /**
+         * buildConfig can change during patch!
+         * we can use the newly value when patch
+         */
+        buildConfigField "String", "MESSAGE", "\"I am the base apk\""
+//        buildConfigField "String", "MESSAGE", "\"I am the patch apk\""
+        /**
+         * client version would update with patch
+         * so we can get the newly git version easily!
+         */
+        buildConfigField "String", "TINKER_ID", "\"${getTinkerIdValue()}\""
+        buildConfigField "String", "PLATFORM",  "\"all\""
     }
     buildTypes {
         release {
@@ -32,4 +43,32 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:23.4.0'
     testCompile 'junit:junit:4.12'
+
+        //可选，用于生成application类
+    provided('com.tencent.tinker:tinker-android-anno:1.7.7'){ changing = true }
+    //tinker的核心库
+    compile('com.tencent.tinker:tinker-android-lib:1.7.7'){ changing = true }
+    //
+    compile "com.android.support:multidex:1.0.1"
 }
+
+def gitSha() {
+    try {
+        String gitRev = 'git rev-parse --short HEAD'.execute(null, project.rootDir).text.trim()
+        if (gitRev == null) {
+            throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")
+        }
+        return gitRev
+    } catch (Exception e) {
+        throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")
+    }
+}
+
+def getTinkerIdValue() {
+    return hasProperty("TINKER_ID") ? TINKER_ID : gitSha()
+}
+
+
+apply from: '../fix.gradle'
+
+

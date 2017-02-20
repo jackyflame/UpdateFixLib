@@ -1,15 +1,15 @@
 
 //apply tinker插件
-fixapply plugin: 'com.tencent.tinker.patch'
+apply plugin: 'com.tencent.tinker.patch'
 
-dependencies {
-    //可选，用于生成application类
-    provided('com.tencent.tinker:tinker-android-anno:1.7.7'){ changing = true }
-    //tinker的核心库
-    compile('com.tencent.tinker:tinker-android-lib:1.7.7'){ changing = true }
-    //
-    compile "com.android.support:multidex:1.0.1"
-}
+//dependencies {
+//    //可选，用于生成application类
+//    provided('com.tencent.tinker:tinker-android-anno:1.7.7'){ changing = true }
+//    //tinker的核心库
+//    compile('com.tencent.tinker:tinker-android-lib:1.7.7'){ changing = true }
+//    //
+//    compile "com.android.support:multidex:1.0.1"
+//}
 
 
 def bakPath = file("${buildDir}/bakApk/")
@@ -34,7 +34,6 @@ ext {
     //only use for build all flavor, if not, just ignore this field
     tinkerBuildFlavorDirectory = "${bakPath}/app-1018-17-32-47"
 }
-
 
 def getOldApkPath() {
     return hasProperty("OLD_APK") ? OLD_APK : ext.tinkerOldApkPath
