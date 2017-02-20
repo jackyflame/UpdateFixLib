@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 
+////apply tinker插件
+//apply plugin: 'com.tencent.tinker.patch'
+
+apply from: '../fix.gradle'
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -10,6 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
