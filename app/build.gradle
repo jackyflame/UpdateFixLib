@@ -29,8 +29,16 @@ android {
         buildConfigField "String", "PLATFORM",  "\"all\""
     }
     buildTypes {
+        debug {
+            //代码混淆
+            minifyEnabled true
+            //免混淆名单
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
+            //代码混淆
             minifyEnabled false
+            //免混淆名单
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
